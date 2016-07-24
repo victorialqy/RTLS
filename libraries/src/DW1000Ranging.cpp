@@ -474,7 +474,7 @@ void DW1000RangingClass::loop() {
 			
 			
 			if(myDistantDevice == NULL) {
-				Serial.println("Not found");
+				//Serial.println("Not found");
 				//we don't have the short address of the device in memory
 				/*
 				Serial.print("unknown: ");
