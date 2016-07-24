@@ -7,6 +7,9 @@ const uint8_t PIN_RST = 9; // reset pin
 const uint8_t PIN_IRQ = 2; // irq pin
 const uint8_t PIN_SS = SS; // spi select pin
 
+// global variable
+ double offsetCalibration = 0;
+
 void setup() {
 
   // Parameter = Baud rate
@@ -33,9 +36,28 @@ void loop() {
 
 void newRange() {
 
+  // For calibrating the range
+  double currRange = DW1000Ranging.getDistantDevice()->getRange();
+
+  // Initial Calibration
+  if (offsetCalibration == 0 && currRange < 0 )
+  {
+     offsetCalibration = -currRange;
+     Serial.print("Calibrating Initial Offset: ");  Serial.println(offsetCalibration);
+     
+  // Subsequent Calibrations
+  }else if( -currRange > offsetCalibration && currRange < 0 )
+  {
+      offsetCalibration = -currRange;
+      Serial.print("Calibrating Offset: ");  Serial.println(offsetCalibration);
+  }
+
+  // Calculating Calibrated Range
+  currRange = currRange + offsetCalibration;
+  
   // Output for ranging, can be modified to suit our needs
   Serial.print("from: "); Serial.print(DW1000Ranging.getDistantDevice()->getShortAddress(), HEX);
-  Serial.print("\t Range: "); Serial.print(DW1000Ranging.getDistantDevice()->getRange()); Serial.print(" m");
+  Serial.print("\t Range: "); Serial.print(currRange); Serial.print(" m");
   Serial.print("\t RX power: "); Serial.print(DW1000Ranging.getDistantDevice()->getRXPower()); Serial.println(" dBm");
 }
 
