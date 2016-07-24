@@ -14,7 +14,7 @@ Using Arduino Pro Mini and Decawave DW1000 sensors.
 
 ## Resources 
 * https://github.com/thotro/arduino-dw1000 - Decawave DW1000 library
-* 
+*
 * https://github.com/esp8266/Arduino - ESP8266 Arduino library
 *
 * https://github.com/jogando/dw1000server  - Sample Graphical Representation of tag triangulation
